@@ -1,0 +1,37 @@
+[{
+  "en": {
+    "infinitive": "To Begin"
+  },
+  "nl": {    
+    "infinitive": "Beginnen",
+    "perfectum": "Begonnen",
+    "imperfectum": "Begon, Begonnen"
+  }
+},{
+  "en": {
+    "infinitive": "To Understand"
+  },
+  "nl": {
+    "infinitive": "Begrijpen",
+    "perfectum": "Begrepen",
+    "imperfectum": "Begreep, Begrepen"
+  }
+},{
+  "en": {
+    "infinitive": "To Tie"
+  },
+  "nl": {
+    "infinitive": "Binden",
+    "perfectum": "Gebonden",
+    "imperfectum": "Bind, Bonden"
+  }
+},{
+  "en": {
+    "infinitive": "To Stay"
+  },
+  "nl": {
+    "infinitive": "Blijven",
+    "perfectum": "Gebleven",
+    "imperfectum": "Bleef, Bleven"
+  }
+}]
