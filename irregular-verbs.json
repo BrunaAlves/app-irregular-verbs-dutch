@@ -34,4 +34,58 @@
     "perfectum": "Gebleven",
     "imperfectum": "Bleef, Bleven"
   }
+},{
+  "en": {
+    "infinitive": "To Bring"
+  },
+  "nl": {
+    "infinitive": "Brengen",
+    "perfectum": "Gebracht",
+    "imperfectum": "Bracht, Brachten"
+  }
+},{
+  "en": {
+    "infinitive": "To Think"
+  },
+  "nl": {
+    "infinitive": "Denken",
+    "perfectum": "Gedacht",
+    "imperfectum": "Dacht, Dachten"
+  }
+},{
+  "en": {
+    "infinitive": "To Do"
+  },
+  "nl": {
+    "infinitive": "Doen",
+    "perfectum": "Gedaan",
+    "imperfectum": "Deed, Deeden"
+  }
+},{
+  "en": {
+    "infinitive": "To Carry, To wear"
+  },
+  "nl": {
+    "infinitive": "Dragen",
+    "perfectum": "Gedragen",
+    "imperfectum": "Droeg, Drogen"
+  }
+},{
+  "en": {
+    "infinitive": "To Float"
+  },
+  "nl": {
+    "infinitive": "Drijven",
+    "perfectum": "Gedreven",
+    "imperfectum": "Dreef, Dreven"
+  }
+},{
+  "en": {
+    "infinitive": "To Drink"
+  },
+  "nl": {
+    "infinitive": "Drinken",
+    "perfectum": "Gedronken",
+    "imperfectum": "Dronk, Dronken"
+  }
 }]

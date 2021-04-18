@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
     backfaceVisibility: "hidden",
     transform: "rotateY(180deg)",
     borderRadius: 10,
-    backgroundColor: "#b9d8e8"
   },
   wordContainer: {
     textAlign: "center",
@@ -72,10 +71,22 @@ const styles = StyleSheet.create({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)"
+  },
+  cardStatus: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    borderRadius: 10,
+    backgroundColor: "#b9d8e8"
   }
 });
 
+
 export default function WordCard(props){
+  const state_wrong_answer = "WRONG_ANSWER";
+  const state_normal = "NORMAL";
+  const state_correct_answer = "CORRECT_ANSWER";
+
   //Props
   const word = props.word;
   const canFlip = props.canFlip;
@@ -86,17 +97,21 @@ export default function WordCard(props){
 
   //States
   const [isFlipped, setIsFlipped] = React.useState(false);
+  const [state, setState] = React.useState(state_normal);
+
   //Refs
   const animationValue = useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
-    Animated.timing(
-      animationValue,
-      {
-        toValue: 1,
-        duration: 100,
-      }
-    ).start();
+    if(animationValue > 0){
+      Animated.timing(
+        animationValue,
+        {
+          toValue: 1,
+          duration: 100,
+        }
+      ).start();
+    }
   }, [animationValue])
 
  
@@ -111,15 +126,16 @@ export default function WordCard(props){
       setIsFlipped(!isFlipped)
   }
 
-  var widthDiff = 10;
-  var topOffset = 20;
+  var defaultWidth = 300;
+  var widthDiff = 5;
+  var topOffset = 3;
   var height = 500;
  
   var flipCardStyle = [styles.flipCard, {
     zIndex: 1000 + index,
     height: height,
     top: height * index + ((height - topOffset)*index*-1),
-    width: 300 + index * widthDiff,
+    width: defaultWidth + index * widthDiff,
     left: 20 - (index * widthDiff)/2,
   }];
 
@@ -138,6 +154,11 @@ export default function WordCard(props){
       return isFlipped && canSwip;
     },
     onPanResponderMove: (evt, gestureState) => {
+      if(gestureState.moveX >= defaultWidth/2 + 100){
+        setState(state_correct_answer)
+      }else if(gestureState.moveX <= defaultWidth/2 + 100){
+        setState(state_wrong_answer)
+      }
       animationValue.setValue(gestureState.dx);
     },
     onPanResponderTerminationRequest: (evt, gestureState) => true,
@@ -171,6 +192,17 @@ export default function WordCard(props){
     },
   });
 
+  var cardStatusStyle = [styles.cardStatus]
+  if(state == state_correct_answer){
+    cardStatusStyle.push({
+      backgroundColor: "green"
+    });
+  }else if (state == state_wrong_answer){
+    cardStatusStyle.push({
+      backgroundColor: "red"
+    });
+  }
+
   return (
     <Pressable onPress={() => handleFlip()}>
       <View {...panResponder.panHandlers}>
@@ -182,12 +214,14 @@ export default function WordCard(props){
               </View>
             </View>
             <View style={styles.back}>
-              <View style={styles.wordContainer}>
-                <Paragraph style={styles.backword}>
-                  <div>{word.nl.infinitive}</div>
-                  <div>Perfectum: {word.nl.perfectum}</div>
-                  <div>Imperfectum: {word.nl.imperfectum}</div>
-                </Paragraph>
+              <View style={cardStatusStyle}>
+                <View style={styles.wordContainer}>
+                  <Paragraph style={styles.backword}>
+                    <div>{word.nl.infinitive}</div>
+                    <div>Perfectum: {word.nl.perfectum}</div>
+                    <div>Imperfectum: {word.nl.imperfectum}</div>
+                  </Paragraph>
+                </View>
               </View>
             </View>
           </View>
