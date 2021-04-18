@@ -1,7 +1,8 @@
 import React from 'react';
 import WordCard from './WordCard';
-import { View, StyleSheet } from "react-native";
-import  {PanGestureHandler} from 'react-native-gesture-handler'
+import { View, StyleSheet, Animated } from "react-native";
+//import  {PanGestureHandler} from 'react-native-gesture-handler'
+//import  SwipableWordCard from './SwipableWordCard';
 
 const styles = StyleSheet.create({
   view: {
@@ -12,41 +13,45 @@ const styles = StyleSheet.create({
 
 export default function WordCards(props){
   const [currentIndex, setCurrentIndex] = React.useState(props.words.length-1);
+  const [cardList, setCardList] = React.useState(props.words);
 
-  function swipHandle(word, index){
-    console.info(index);
-    setCurrentIndex(index);
+  const [refresh, setRefresh] = React.useState(false)
+
+  function removeLast(){
+    cardList.pop();
+    setCardList(cardList)
   }
 
-  function handleGesture(event){
-    debugger;
-    console.info(event);
+  function onSwipLeft(wordIndex, word){
+    removeLast();
+    setRefresh(!refresh);
+  }
+
+  function onSwipRight(wordIndex, word){
+    removeLast();
+    setRefresh(!refresh);
   }
 
   return  (
     <View style={styles.view}>
-      {props.words.map((word, wordIndex) => {
-        if(wordIndex == currentIndex){
-          return <PanGestureHandler
-             onGestureEvent={handleGesture} 
-             onHandlerStateChange={handleGesture}
-            maxPointers={1}> 
-            <WordCard
-              key={wordIndex}
-              index={wordIndex}
-              canFlip={true}
-              word={word}
-              onSwipe={swipHandle}
-              />
-          </PanGestureHandler>
+      {cardList.map((word, wordIndex) => {
+        var canFlip = false;
+        var canSwip = false;
+
+        if(wordIndex == cardList.length-1){
+          canFlip = true;
+          canSwip = true;  
         }
 
         return <WordCard
+          refresh={refresh}
           key={wordIndex}
           index={wordIndex}
-          canFlip={false}
+          canFlip={canFlip}
+          canSwip={canSwip}
           word={word}
-          onSwipe={swipHandle}
+          onSwipLeft={onSwipLeft}
+          onSwipRight={onSwipRight}
         />
       })}
     </View>

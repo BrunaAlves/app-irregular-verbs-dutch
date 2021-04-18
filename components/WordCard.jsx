@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet, Pressable } from "react-native";
+import React, { useRef } from 'react';
+import { View, StyleSheet, Pressable, Animated, PanResponder, Dimensions } from "react-native";
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 
 const styles = StyleSheet.create({
@@ -76,9 +76,30 @@ const styles = StyleSheet.create({
 });
 
 export default function WordCard(props){
-  var word = props.word;
+  //Props
+  const word = props.word;
+  const canFlip = props.canFlip;
+  const index = props.index;
+  const canSwip = props.canSwip;
 
+  const { width } = Dimensions.get('window');
+
+  //States
   const [isFlipped, setIsFlipped] = React.useState(false);
+  //Refs
+  const animationValue = useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    Animated.timing(
+      animationValue,
+      {
+        toValue: 1,
+        duration: 100,
+      }
+    ).start();
+  }, [animationValue])
+
+ 
 
   var cardStyles = [styles.flipCardInner];
   if(isFlipped){
@@ -86,7 +107,7 @@ export default function WordCard(props){
   }
 
   function handleFlip(){
-    if(props.canFlip)
+    if(canFlip)
       setIsFlipped(!isFlipped)
   }
 
@@ -95,33 +116,82 @@ export default function WordCard(props){
   var height = 500;
  
   var flipCardStyle = [styles.flipCard, {
-    zIndex: 1000 + props.index,
+    zIndex: 1000 + index,
     height: height,
-    top: height * props.index + ((height - topOffset)*props.index*-1),
-    width: 300 + props.index * widthDiff,
-    left: 20 - (props.index * widthDiff)/2
-  }]
+    top: height * index + ((height - topOffset)*index*-1),
+    width: 300 + index * widthDiff,
+    left: 20 - (index * widthDiff)/2,
+  }];
 
+  if(canSwip){
+    flipCardStyle.push({
+      transform: [
+        {
+          translateX: animationValue
+        }
+      ]
+    })
+  }
+
+  var panResponder = PanResponder.create({
+    onMoveShouldSetPanResponder: (evt, gestureState) => {
+      return isFlipped && canSwip;
+    },
+    onPanResponderMove: (evt, gestureState) => {
+      animationValue.setValue(gestureState.dx);
+    },
+    onPanResponderTerminationRequest: (evt, gestureState) => true,
+    onPanResponderRelease: (evt, gestureState) => {
+      if(gestureState.moveX >= width){
+        Animated.timing(
+          animationValue,
+          {
+            toValue: 1000,
+            duration: 1000,
+          }
+        ).start(() => {
+          props.onSwipRight(index, word);
+        });
+      }else if(gestureState.moveX <= 0){
+        Animated.timing(
+          animationValue,
+          {
+            toValue: -1000,
+            duration: 500,
+          }
+        ).start(() => {
+          props.onSwipLeft(index, word);
+        });
+      }else{
+        animationValue.setValue(0);
+      }
+    },
+    onPanResponderTerminate: (evt, gestureState) => {
+      animationValue.setValue(0);
+    },
+  });
 
   return (
     <Pressable onPress={() => handleFlip()}>
-      <View style={flipCardStyle}>
-        <View style={cardStyles}>
-          <View style={styles.front}>
-            <View style={styles.wordContainer}>
-              <Paragraph style={styles.word}>{word.en.infinitive}</Paragraph>
+      <View {...panResponder.panHandlers}>
+        <Animated.View style={flipCardStyle}>
+          <View style={cardStyles}>
+            <View style={styles.front}>
+              <View style={styles.wordContainer}>
+                <Paragraph style={styles.word}>{word.en.infinitive}</Paragraph>
+              </View>
+            </View>
+            <View style={styles.back}>
+              <View style={styles.wordContainer}>
+                <Paragraph style={styles.backword}>
+                  <div>{word.nl.infinitive}</div>
+                  <div>Perfectum: {word.nl.perfectum}</div>
+                  <div>Imperfectum: {word.nl.imperfectum}</div>
+                </Paragraph>
+              </View>
             </View>
           </View>
-          <View style={styles.back}>
-            <View style={styles.wordContainer}>
-              <Paragraph style={styles.backword}>
-                <div>{word.nl.infinitive}</div>
-                <div>Perfectum: {word.nl.perfectum}</div>
-                <div>Imperfectum: {word.nl.imperfectum}</div>
-              </Paragraph>
-            </View>
-          </View>
-        </View>
+        </Animated.View>
       </View>
     </Pressable>
   );
