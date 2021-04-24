@@ -1,9 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
+import 'react-native-gesture-handler';
 import React from 'react';
-import { Provider as PaperProvider } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import './app.css';
-import WordCards from './components/WordCards';
+import CardList from './components/CardList';
+import Home from './components/home';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import words from './irregular-verbs.json';
 
@@ -16,13 +18,22 @@ const styles = StyleSheet.create({
   },
 });
 
+const Stack = createStackNavigator();
+
 export default function App() {
+  function CardListStack(){
+    return <CardList 
+      words={words} 
+    />;
+  }
+
   return (
-    <PaperProvider>
-       <WordCards 
-         words={words}
-       />
-    </PaperProvider>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="CardList" component={CardListStack} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

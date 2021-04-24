@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { View, StyleSheet, Pressable, Animated, PanResponder, Dimensions } from "react-native";
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { Paragraph } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   flipCard: {
@@ -81,8 +81,7 @@ const styles = StyleSheet.create({
   }
 });
 
-
-export default function WordCard(props){
+export default function Card(props){
   const state_wrong_answer = "WRONG_ANSWER";
   const state_normal = "NORMAL";
   const state_correct_answer = "CORRECT_ANSWER";
@@ -122,10 +121,12 @@ export default function WordCard(props){
   }
 
   function handleFlip(){
-    if(canFlip)
-      setIsFlipped(!isFlipped)
+    if(canFlip) //se eu puder virar
+      setIsFlipped(!isFlipped) //vira o cartao com o valor inverso
   }
+ 
 
+  //tenta desenhar os cartoes de forma bonitinha na tela, tipo 3d
   var defaultWidth = 300;
   var widthDiff = 5;
   var topOffset = 3;
@@ -136,7 +137,7 @@ export default function WordCard(props){
     height: height,
     top: height * index + ((height - topOffset)*index*-1),
     width: defaultWidth + index * widthDiff,
-    left: 20 - (index * widthDiff)/2,
+    left: 20 - (index * widthDiff)/2, //tenta fazer o cartao ficar no maio
   }];
 
   if(canSwip){

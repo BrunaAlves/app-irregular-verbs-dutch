@@ -1,8 +1,6 @@
 import React from 'react';
-import WordCard from './WordCard';
+import Card from './Card';
 import { View, StyleSheet, Animated } from "react-native";
-//import  {PanGestureHandler} from 'react-native-gesture-handler'
-//import  SwipableWordCard from './SwipableWordCard';
 
 const styles = StyleSheet.create({
   view: {
@@ -11,13 +9,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function WordCards(props){
-  const [currentIndex, setCurrentIndex] = React.useState(props.words.length-1);
+export default function CardList(props){
   const [cardList, setCardList] = React.useState(props.words);
-
   const [refresh, setRefresh] = React.useState(false)
 
-  function removeLast(){
+  function removeLast(){ //tira do topo da lista
     cardList.pop();
     setCardList(cardList)
   }
@@ -38,12 +34,12 @@ export default function WordCards(props){
         var canFlip = false;
         var canSwip = false;
 
-        if(wordIndex == cardList.length-1){
+        if(wordIndex == cardList.length-1){ //Se for a ultima carta (carta da frente)
           canFlip = true;
           canSwip = true;  
         }
 
-        return <WordCard
+        return <Card
           refresh={refresh}
           key={wordIndex}
           index={wordIndex}
