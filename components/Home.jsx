@@ -1,59 +1,35 @@
 import React from 'react';
-import Card from './Card';
-import { View, StyleSheet, Animated, Button } from "react-native";
+import { View, StyleSheet, FlatList, Button } from "react-native";
+import words from '../irregular-verbs.json';
+import { Title, 
+  Description, 
+  Container, 
+  TitleBar, 
+  IconDelete, 
+  IconEdit,
+  WrapperDelete,
+  WrapperEdit,
+  Teste } from '../style';
 
 const styles = StyleSheet.create({
   view: {
     padding: 20,
     marginTop: 40
   },
-});
+}); 
 
 export default function Home(props){
- /* const [cardList, setCardList] = React.useState(props.words);
-  const [refresh, setRefresh] = React.useState(false)
 
-  function removeLast(){ //tira do topo da lista
-    cardList.pop();
-    setCardList(cardList)
-  }
-
-  function onSwipLeft(wordIndex, word){
-    removeLast();
-    setRefresh(!refresh);
-  }
-
-  function onSwipRight(wordIndex, word){
-    removeLast();
-    setRefresh(!refresh);
-  }
-
-  return  (
-    <View style={styles.view}>
-      {cardList.map((word, wordIndex) => {
-        var canFlip = false;
-        var canSwip = false;
-
-        if(wordIndex == cardList.length-1){ //Se for a ultima carta (carta da frente)
-          canFlip = true;
-          canSwip = true;  
-        }
-
-        return <Card
-          refresh={refresh}
-          key={wordIndex}
-          index={wordIndex}
-          canFlip={canFlip}
-          canSwip={canSwip}
-          word={word}
-          onSwipLeft={onSwipLeft}
-          onSwipRight={onSwipRight}
-        />
-      })}
-    </View>
-  );*/
+  const renderItem = ({ item }) => {
+    return <TitleBar><Title>{item.en.infinitive}</Title></TitleBar>
+  };
 
   return <View>
+          <FlatList
+            data={words}
+            renderItem={renderItem}
+            keyExtractor={item => item.en.infinitive}
+          />
           <Button
               title="Suffle"
               onPress={() => props.navigation.navigate('CardList')}

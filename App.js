@@ -7,7 +7,6 @@ import Home from './components/home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import words from './irregular-verbs.json';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,7 +22,7 @@ const Stack = createStackNavigator();
 export default function App() {
   function CardListStack(){
     return <CardList 
-      words={words} 
+      words={[]} 
     />;
   }
 
