@@ -1,9 +1,8 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-//import './app.css';
-import CardList from './components/CardList';
-import Home from './components/Home';
+import CardList from './src/components/CardList';
+import Home from './src/components/Home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 

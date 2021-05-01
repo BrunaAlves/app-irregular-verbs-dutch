@@ -9,7 +9,7 @@ import { Title,
   IconEdit,
   WrapperDelete,
   WrapperEdit,
-  Teste } from '../style';
+  Teste } from '../styles/style';
 
 const styles = StyleSheet.create({
   view: {
