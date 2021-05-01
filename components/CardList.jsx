@@ -32,11 +32,9 @@ export default function CardList(props){
     <View style={styles.view}>
       {cardList.map((word, wordIndex) => {
         var canFlip = false;
-        var canSwip = false;
 
         if(wordIndex == cardList.length-1){ //Se for a ultima carta (carta da frente)
           canFlip = true;
-          canSwip = true;  
         }
 
         return <Card
@@ -44,7 +42,6 @@ export default function CardList(props){
           key={wordIndex}
           index={wordIndex}
           canFlip={canFlip}
-          canSwip={canSwip}
           word={word}
           onSwipLeft={onSwipLeft}
           onSwipRight={onSwipRight}

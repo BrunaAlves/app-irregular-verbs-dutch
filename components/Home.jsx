@@ -25,11 +25,11 @@ export default function Home(props){
   };
 
   return <View>
-          <FlatList
+          {/* <FlatList
             data={words}
             renderItem={renderItem}
             keyExtractor={item => item.en.infinitive}
-          />
+          /> */}
           <Button
               title="Suffle"
               onPress={() => props.navigation.navigate('CardList')}

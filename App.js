@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import './app.css';
+//import './app.css';
 import CardList from './components/CardList';
-import Home from './components/home';
+import Home from './components/Home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -22,7 +22,25 @@ const Stack = createStackNavigator();
 export default function App() {
   function CardListStack(){
     return <CardList 
-      words={[]} 
+      words={[{
+        "en": {
+          "infinitive": "To Begin"
+        },
+        "nl": {    
+          "infinitive": "Beginnen",
+          "perfectum": "Begonnen",
+          "imperfectum": "Begon, Begonnen"
+        }
+      },{
+        "en": {
+          "infinitive": "To Understand"
+        },
+        "nl": {
+          "infinitive": "Begrijpen",
+          "perfectum": "Begrepen",
+          "imperfectum": "Begreep, Begrepen"
+        }
+      }]} 
     />;
   }
 
