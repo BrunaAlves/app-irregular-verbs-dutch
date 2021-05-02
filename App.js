@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Provider } from 'react-native-paper';
 import CardList from './src/screens/CardList';
-import Home from './src/screens/Home';
+import WordList from './src/screens/WordList';
 import AddWord from './src/screens/AddWord';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -29,8 +29,12 @@ export default function App() {
     />;
   }
 
-  function HomeStack(props){
-    return <Home
+  function WordListStack(props){
+    return <WordList
+    onDelete={(index) => {
+      wordsList.splice(index, 1)
+      setWordList([].concat(wordsList))
+    }}
       words={wordsList}
       navigation = {props.navigation}
     />
@@ -48,8 +52,8 @@ export default function App() {
   return (
     <Provider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={HomeStack} />
+        <Stack.Navigator initialRouteName="WordList">
+          <Stack.Screen name="WordList" component={WordListStack} />
           <Stack.Screen name="CardList" component={CardListStack} />
           <Stack.Screen name="AddWord" component={AddWordStack} />
         </Stack.Navigator>

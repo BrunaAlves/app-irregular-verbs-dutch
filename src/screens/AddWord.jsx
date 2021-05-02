@@ -20,7 +20,7 @@ export default function AddWord(props) {
         "imperfectum": imperfectumNL
       }
     })
-    props.navigation.navigate('Home');
+    props.navigation.navigate('WordList');
 
   }
 
