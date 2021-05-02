@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 });
 
 export default function CardList(props){
-  const [cardList, setCardList] = React.useState(props.words);
+  const [cardList, setCardList] = React.useState([].concat(props.words)); //tenta duplicar a lista porque tava com bug
   const [refresh, setRefresh] = React.useState(false)
 
   function removeLast(){ //tira do topo da lista

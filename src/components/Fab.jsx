@@ -23,7 +23,8 @@ export default function Fab(props){
             {
               icon: 'shuffle-variant',
               label: 'Shuffle Words',
-              onPress: () => props.navigation.navigate('CardList'),
+              onPress: () => props.navigation.navigate('CardList', {arrayShuffle : props.arrayShuffle}),
+            
               small: false,
             },
           ]}

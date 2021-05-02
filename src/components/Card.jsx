@@ -69,7 +69,7 @@ export default function Card(props){
     zIndex: 1000 + index,
     height: height,
     width: defaultWidth + index * widthDiff,
-    marginTop:  (index * height * -1) + index * topOffset,
+    marginTop:  index == 0 ? 0 : height*-1 + (topOffset),
     marginLeft: 20 - (index * widthDiff)/2, //tenta fazer o cartao ficar no maio
   }];
 

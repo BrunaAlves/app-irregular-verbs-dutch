@@ -23,9 +23,9 @@ const Stack = createStackNavigator();
 export default function App() {
   const [wordsList, setWordList] = React.useState(words);
 
-  function CardListStack(){
+  function CardListStack({route}){
     return <CardList 
-      words={[]} 
+      words={route.params.arrayShuffle} 
     />;
   }
 
