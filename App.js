@@ -1,11 +1,13 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import CardList from './src/components/CardList';
-import Home from './src/components/Home';
+import { Provider } from 'react-native-paper';
+import CardList from './src/screens/CardList';
+import Home from './src/screens/Home';
+import AddWord from './src/screens/AddWord';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import words from './src/irregular-verbs.json';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,37 +21,40 @@ const styles = StyleSheet.create({
 const Stack = createStackNavigator();
 
 export default function App() {
+  const [wordsList, setWordList] = React.useState(words);
+
   function CardListStack(){
     return <CardList 
-      words={[{
-        "en": {
-          "infinitive": "To Begin"
-        },
-        "nl": {    
-          "infinitive": "Beginnen",
-          "perfectum": "Begonnen",
-          "imperfectum": "Begon, Begonnen"
-        }
-      },{
-        "en": {
-          "infinitive": "To Understand"
-        },
-        "nl": {
-          "infinitive": "Begrijpen",
-          "perfectum": "Begrepen",
-          "imperfectum": "Begreep, Begrepen"
-        }
-      }]} 
+      words={[]} 
     />;
   }
 
+  function HomeStack(props){
+    return <Home
+      words={wordsList}
+      navigation = {props.navigation}
+    />
+  }
+
+  function AddWordStack(props){
+    return <AddWord
+      onSave={(word) => {
+        setWordList(wordsList.concat([word]))
+      }}
+       navigation={props.navigation}
+    />
+  }
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="CardList" component={CardListStack} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeStack} />
+          <Stack.Screen name="CardList" component={CardListStack} />
+          <Stack.Screen name="AddWord" component={AddWordStack} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
