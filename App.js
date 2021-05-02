@@ -22,10 +22,33 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const [wordsList, setWordList] = React.useState(words);
+  
+  function finishShuffle(){
+    setWordList([].concat(wordsList))
+  }
 
-  function CardListStack({route}){
+  // function onCorrectAnswer(wordId){
+  //   var word = getWordById(wordId)
+  //   word.data.correctAnswerCount++;
+  //   setWordList([].concat(wordsList))
+  // }
+  
+
+  function getWordById(wordId){
+    var word = null;
+    wordsList.forEach((item) => {
+      if(item.id === wordId)
+        word = item; 
+    });
+    return word
+  }
+
+
+  function CardListStack({route, navigation}){
     return <CardList 
+      navigation={navigation}
       words={route.params.arrayShuffle} 
+      finishShuffle={finishShuffle}
     />;
   }
 
@@ -43,6 +66,7 @@ export default function App() {
   function AddWordStack(props){
     return <AddWord
       onSave={(word) => {
+        word.id = wordsList.length + 1;
         setWordList(wordsList.concat([word]))
       }}
        navigation={props.navigation}
@@ -52,7 +76,7 @@ export default function App() {
   return (
     <Provider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="WordList">
+        <Stack.Navigator screenOptions={{ headerTitle: false, headerLeft: null}} initialRouteName="WordList">
           <Stack.Screen name="WordList" component={WordListStack} />
           <Stack.Screen name="CardList" component={CardListStack} />
           <Stack.Screen name="AddWord" component={AddWordStack} />

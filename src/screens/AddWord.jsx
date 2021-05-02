@@ -18,6 +18,10 @@ export default function AddWord(props) {
         "infinitive": infinitiveNL,
         "perfectum": perfectumNL,
         "imperfectum": imperfectumNL
+      },
+      "data": {
+        "wrongAnswerCount": 0,
+        "correctAnswerCount": 0
       }
     })
     props.navigation.navigate('WordList');

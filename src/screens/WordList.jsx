@@ -1,13 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, Button, Pressable } from "react-native";
+import { View, FlatList} from "react-native";
 import { List, IconButton, Colors } from 'react-native-paper';
 import Fab from '../components/Fab';
-const styles = StyleSheet.create({
-  view: {
-    padding: 20,
-    marginTop: 40
-  },
-});
 
 export default function WordList(props) {
   const [shuffleList, setShuffleList] = React.useState([]);
@@ -18,14 +12,14 @@ export default function WordList(props) {
 
   function addToShuffle(item) {
     setShuffleList(shuffleList.concat([item]))
-    
+
   }
 
   function removeToShuffle(item) {
     var index = getIndexItemOnShuffle(item)
     shuffleList.splice(index, 1)
     setShuffleList([].concat(shuffleList))
-    
+
   }
 
   function getIndexItemOnShuffle(item) {
@@ -39,7 +33,7 @@ export default function WordList(props) {
 
   function selectItem(item, index) {
     if (getIndexItemOnShuffle(item) > -1) {
-      return <IconButton 
+      return <IconButton
         icon="checkbox-marked-circle"
         size={20}
         color={Colors.green500}
@@ -59,10 +53,10 @@ export default function WordList(props) {
   const renderItem = ({ item, index }) => {
     return <List.Item
       title={item.en.infinitive}
-      description={item.nl.infinitive}
+      description={item.nl.infinitive + "       " + item.data.correctAnswerCount + "/" + (item.data.wrongAnswerCount + item.data.correctAnswerCount)}
       left={props => selectItem(item, index)}
       right={props => <IconButton
-        icon="trash-can-outline" 
+        icon="trash-can-outline"
         color={Colors.red500}
         size={20}
         onPress={() => deleteItem(index)}
@@ -71,7 +65,7 @@ export default function WordList(props) {
     />
   };
 
-  return <View>
+  return <View style={{flex: 1}}>
 
     <FlatList
       data={props.words}
