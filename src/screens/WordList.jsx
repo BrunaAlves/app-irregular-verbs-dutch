@@ -55,6 +55,7 @@ export default function WordList(props) {
       title={item.en.infinitive}
       description={item.nl.infinitive + "       " + item.data.correctAnswerCount + "/" + (item.data.wrongAnswerCount + item.data.correctAnswerCount)}
       left={props => selectItem(item, index)}
+      onPress={() => props.navigation.navigate('EditWord',{ item: item })}
       right={props => <IconButton
         icon="trash-can-outline"
         color={Colors.red500}
