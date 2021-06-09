@@ -8,7 +8,9 @@ import AddWord from './src/screens/AddWord';
 import EditWord from './src/screens/EditWord';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import words from './src/irregular-verbs.json';
+import WordRepository from './src/databases/WordRepository';
+
+const wordRepository = new WordRepository();
 
 const styles = StyleSheet.create({
   container: {
@@ -22,7 +24,17 @@ const styles = StyleSheet.create({
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [wordsList, setWordList] = React.useState(words);
+  const [wordsList, setWordList] = React.useState([]);
+
+  if(wordsList.length == 0){ //Se a lista tiver vazia, inicia o banco
+    wordRepository.init().then(() => {
+      wordRepository.getAll().then((data) => {
+        if(data.length > 0){
+          setWordList(data);
+        }
+      })
+    });
+  }
 
   function finishShuffle() {
     setWordList([].concat(wordsList))
@@ -38,9 +50,11 @@ export default function App() {
 
   function WordListStack(props) {
     return <WordList
-      onDelete={(index) => {
-        wordsList.splice(index, 1)
-        setWordList([].concat(wordsList))
+      onDelete={(item, index) => {
+        wordRepository.delete(item.id).then(() => {
+          wordsList.splice(index, 1)
+          setWordList([].concat(wordsList))
+        })       
       }}
       words={wordsList}
       navigation={props.navigation}
@@ -51,12 +65,14 @@ export default function App() {
     return <EditWord
       item={route.params.item}
       onEdit={(word) => {
-        var indexPosition = -1;
-        wordsList.forEach((w, index) => {
-          if (word.id === w.id) indexPosition = index;
-        })
-        wordsList.splice(indexPosition, 1)
-        setWordList(wordsList.concat([word]))
+        wordRepository.update(word).then(()=>{
+          var indexPosition = -1;
+          wordsList.forEach((w, index) => {
+            if (word.id === w.id) indexPosition = index;
+          })
+          wordsList.splice(indexPosition, 1)
+          setWordList(wordsList.concat([word]))
+        });
       }}
       navigation={navigation}
     />
@@ -66,7 +82,9 @@ export default function App() {
     return <AddWord
       onSave={(word) => {
         word.id = wordsList.length + 1;
-        setWordList(wordsList.concat([word]))
+        wordRepository.create(word).then(()=>{
+          setWordList(wordsList.concat([word]))
+        })
       }}
       navigation={props.navigation}
     />

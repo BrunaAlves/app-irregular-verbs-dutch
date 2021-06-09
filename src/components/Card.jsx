@@ -82,7 +82,7 @@ export default function Card(props) {
   var height = 500;
 
   var flipCardStyle = [styles.flipCard, {
-    zIndex: 1000 + index,
+    zIndex: index, //define quem esta no topo
     height: height,
     width: defaultWidth + index * widthDiff,
     marginTop: index == 0 ? 0 : height * -1 + (topOffset),

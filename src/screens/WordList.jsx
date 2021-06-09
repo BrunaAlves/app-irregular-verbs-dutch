@@ -3,11 +3,12 @@ import { View, FlatList} from "react-native";
 import { List, IconButton, Colors } from 'react-native-paper';
 import Fab from '../components/Fab';
 
+
 export default function WordList(props) {
   const [shuffleList, setShuffleList] = React.useState([]);
 
-  function deleteItem(index) {
-    props.onDelete(index)
+  function deleteItem(item, itemIndex) {
+    props.onDelete(item, itemIndex)
   }
 
   function addToShuffle(item) {
@@ -60,7 +61,7 @@ export default function WordList(props) {
         icon="trash-can-outline"
         color={Colors.red500}
         size={20}
-        onPress={() => deleteItem(index)}
+        onPress={() => deleteItem(item, index)}
       />}
 
     />
