@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Pressable, Text } from "react-native";
-import { Button, Colors } from 'react-native-paper';
+import { Button, Colors, IconButton} from 'react-native-paper';
+import * as Speech from 'expo-speech';
 
 const styles = StyleSheet.create({
   flipCard: {
@@ -89,6 +90,11 @@ export default function Card(props) {
     marginLeft: 20 - (index * widthDiff) / 2, //tenta fazer o cartao ficar no maio
   }];
 
+  const speak = (text) => {
+    console.log('Pressed')
+    Speech.speak(text, {language: "nl"});
+  };
+
   return (
     <View style={flipCardStyle}>
       <Pressable onPress={() => handleFlip()}>
@@ -101,9 +107,15 @@ export default function Card(props) {
           {isFlipped &&
             <View style={styles.back}>
               <View style={styles.backContent}>
-                <Text style={styles.backContentText}>{word.nl.infinitive}</Text>
-                <Text style={styles.backContentText}>Perfectum: {word.nl.perfectum}</Text>
-                <Text style={styles.backContentText}>Imperfectum: {word.nl.imperfectum}</Text>
+                <Text style={styles.backContentText}>{word.nl.infinitive}
+                  <IconButton icon="volume-high" color={Colors.blue500} size={15} onPress={() => speak(word.nl.infinitive)}/>
+                </Text>
+                <Text style={styles.backContentText}>Perfectum: {word.nl.perfectum}
+                  <IconButton icon="volume-high" color={Colors.blue500} size={15} onPress={() => speak(word.nl.perfectum)} />
+                </Text>
+                <Text style={styles.backContentText}>Imperfectum: {word.nl.imperfectum}
+                  <IconButton icon="volume-high" color={Colors.blue500} size={15} onPress={() => speak(word.nl.imperfectum)}/>
+                </Text>
               </View>
               <Button icon="brain" mode="contained" labelStyle={styles.buttonLabel} compact={true} color={Colors.yellow800} style={styles.buttonStudyAgain} onPress={() => props.onWrongAnswer(word)}>
               
