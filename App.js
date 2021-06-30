@@ -6,6 +6,7 @@ import CardList from './src/screens/CardList';
 import WordList from './src/screens/WordList';
 import AddWord from './src/screens/AddWord';
 import EditWord from './src/screens/EditWord';
+import SearchWord from './src/screens/SearchWord';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import WordRepository from './src/databases/WordRepository';
@@ -90,6 +91,12 @@ export default function App() {
     />
   }
 
+  function SearchWordStack(props) {
+    return <SearchWord
+      navigation={props.navigation}
+    />
+  }
+
   return (
     <Provider>
       <NavigationContainer>
@@ -98,6 +105,7 @@ export default function App() {
           <Stack.Screen name="CardList" component={CardListStack} />
           <Stack.Screen name="AddWord" component={AddWordStack} />
           <Stack.Screen name="EditWord" component={EditWordStack} />
+          <Stack.Screen name="SearchWord" component={SearchWordStack} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

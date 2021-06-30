@@ -15,6 +15,11 @@ export default function Fab(props) {
       icon={open ? 'window-close' : 'plus'}
       actions={[
         {
+          icon: 'comment-search-outline',
+          label: 'Search Word',
+          onPress: () => props.navigation.navigate('SearchWord'),
+        },
+        {
           icon: 'plus',
           label: 'Add Word',
           onPress: () => props.navigation.navigate('AddWord'),
